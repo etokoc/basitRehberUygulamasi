@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Rehber</string>
+    <string name="yen_k_ekle">YENİ KİŞİ EKLE</string>
+    <string name="rehber">Rehber</string>
+    <string name="kullan_c_ad">Kullanıcı Adı</string>
+    <string name="parola">Parola</string>
+    <string name="giri_yap">Giriş Yap</string>
+    <string name="kay_t_ol">Kayıt Ol</string>
+    <string name="rehbere_ho_geldiniz">Rehbere Hoş Geldiniz</string>
+</resources>
