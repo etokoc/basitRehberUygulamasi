@@ -14,10 +14,9 @@ import java.util.Calendar;
 
 public class Rehber_Activity extends AppCompatActivity{
 
-    EditText kullaniciAdiSoyadi, telefonNo, dogumTarihi, mail, kisiNot;
     private KisiModel kayitEdilecekKisi;
     private Button buttonKisiKaydet;
-    private String kul_AdSoyad, kul_telefonNo, kul_dogumTarihi, kulMail, kulNot, kulEklenmeTarih;
+    private String kulEklenmeTarih;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +37,11 @@ public class Rehber_Activity extends AppCompatActivity{
         Calendar calendar = Calendar.getInstance();
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         kulEklenmeTarih = dateFormat.format(calendar.getTime());
-        return "kulEklenmeTarih";
+        return kulEklenmeTarih;
     }
     private void edittxtVeriAl() {
         kayitEdilecekKisi = new KisiModel();
         kayitEdilecekKisi.setKullaniciEklenmeTarih(tarihAl());
-
         LinearLayout linearLayout = findViewById(R.id.linear_rehber_ekleme);
         for (int i = 0; i < linearLayout.getChildCount(); i++) {
             Object childView = linearLayout.getChildAt(i);

@@ -16,7 +16,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     private static final String EklenmeTarih = "eklemeTarih";
     private static final String DogumTarihi = "dogumTarihi";
     static String databaseName = "vtRehber";
-    static int version = 1;
+    static int version = 2;
 
 
     public DatabaseHelper(Context context) {
@@ -52,7 +52,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
         values.put(EklenmeTarih, kulEklenmeTarih);
         values.put(DogumTarihi, kulDogum);
 
-        db.insert(TABLO_AD, null, values);
+        db.insert(TABLO_AD,null,values);
         db.close();
     }
 }
