@@ -44,7 +44,7 @@
         android:backgroundTint="@color/GirisYapButton"/>
     <Button
         android:layout_marginTop="5dp"
-        android:id="@+id/KayitOlButton"
+        android:id="@+id/kayitOlButton"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="@string/kay_t_ol"
