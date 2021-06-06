@@ -89,7 +89,7 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 tasarlanmisAlertDialogGoster();
                 kisiYakala(kisilerListesi.get(i).getKullaniciTelefon(), i);
-                return false;
+                return true;
             }
         });
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
