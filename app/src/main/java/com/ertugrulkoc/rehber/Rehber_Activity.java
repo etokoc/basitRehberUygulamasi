@@ -142,7 +142,7 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
             case R.id.hesapCikis:
                 SharedPreferences sharedPreferences = getSharedPreferences("remember", MODE_PRIVATE);
                 sharedPreferences.edit().putBoolean("remember", false).apply();
-                Intent intent = new Intent(this,MainActivity.class);
+                Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 this.finish();
                 break;
@@ -230,15 +230,22 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
     private void edittxtVeriAl() {
         kayitEdilecekKisi = new KisiModel();
         kayitEdilecekKisi.setKullaniciEklenmeTarih(tarihAl());
+        boolean bosKontrol = false;
         for (int i = 0; i < linearLayout.getChildCount(); i++) {
             Object childView = linearLayout.getChildAt(i);
             if (childView instanceof EditText) {
                 switch (((EditText) childView).getId()) {
                     case R.id.edittxt_kisiAdSoyad:
                         kayitEdilecekKisi.setKullaniciAdSoyad(String.valueOf(((EditText) childView).getText()));
+                        if (((EditText) childView).getText().toString().equals("")) {
+                            bosKontrol = true;
+                        }
                         break;
                     case R.id.edittxt_kisiTelefon:
                         kayitEdilecekKisi.setKullaniciTelefon(String.valueOf(((EditText) childView).getText()));
+                        if (((EditText) childView).getText().toString().equals("")) {
+                            bosKontrol = true;
+                        }
                         break;
                     case R.id.edittxt_kisiMail:
                         kayitEdilecekKisi.setKullaniciMail(String.valueOf(((EditText) childView).getText()));
@@ -260,12 +267,17 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
             }
         }
         if (!varolanKisiKontrol) {
-            veritabaninaKaydet();
-            kisilerListesi.add(kayitEdilecekKisi);
-            listViewGuncelle();
-            alertKisiKayit.cancel();
-            edittxtTemizleGuncelle(0);
-            Toast.makeText(this, "Kişi Kayıt Edildi", Toast.LENGTH_SHORT).show();
+            if (!bosKontrol) {
+                veritabaninaKaydet();
+                kisilerListesi.add(kayitEdilecekKisi);
+                listViewGuncelle();
+                alertKisiKayit.cancel();
+                edittxtTemizleGuncelle(0);
+                Toast.makeText(this, "Kişi Kayıt Edildi", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Kişi Ad ve Numarayı Kontrol Ediniz !", Toast.LENGTH_SHORT).show();
+            }
+
 
         } else {
             Toast.makeText(this, "Bu numara zaten kayıtlı", Toast.LENGTH_SHORT).show();
@@ -276,15 +288,22 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
     private void edittxtVeriAlDuzenle(int kisiSira) {
         kayitEdilecekKisi = new KisiModel();
         kayitEdilecekKisi.setKullaniciEklenmeTarih(tarihAl());
+        boolean bosKontrol = false;
         for (int i = 0; i < linearLayoutGuncelle.getChildCount(); i++) {
             Object childView = linearLayoutGuncelle.getChildAt(i);
             if (childView instanceof EditText) {
                 switch (((EditText) childView).getId()) {
                     case R.id.edittxt_duzenle_kisiAdSoyad:
                         kayitEdilecekKisi.setKullaniciAdSoyad(String.valueOf(((EditText) childView).getText()));
+                        if (((EditText) childView).getText().toString().equals("")) {
+                            bosKontrol = true;
+                        }
                         break;
                     case R.id.edittxt_duzenle_kisiTelefon:
                         kayitEdilecekKisi.setKullaniciTelefon(String.valueOf(((EditText) childView).getText()));
+                        if (((EditText) childView).getText().toString().equals("")) {
+                            bosKontrol = true;
+                        }
                         break;
                     case R.id.edittxt_duzenle_kisiMail:
                         kayitEdilecekKisi.setKullaniciMail(String.valueOf(((EditText) childView).getText()));
@@ -298,12 +317,17 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         }
-        kisilerListesi.remove(kisiSira);
-        kisilerListesi.add(kayitEdilecekKisi);
-        listViewGuncelle();
-        alertKisiGuncelle.cancel();
-        edittxtTemizleGuncelle(0);
-        Toast.makeText(this, "Kişi Güncellendi", Toast.LENGTH_SHORT).show();
+        if (!bosKontrol) {
+            kisilerListesi.remove(kisiSira);
+            kisilerListesi.add(kayitEdilecekKisi);
+            listViewGuncelle();
+            alertKisiGuncelle.cancel();
+            edittxtTemizleGuncelle(0);
+            Toast.makeText(this, "Kişi Güncellendi", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Kişi Ad ve Numarayı Kontrol Ediniz !", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
