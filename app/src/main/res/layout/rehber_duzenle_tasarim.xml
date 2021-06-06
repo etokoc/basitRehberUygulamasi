@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="25dp"
+    android:id="@+id/linear_rehber_duzenle">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Kişi Düzenle"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/edittxt_duzenle_kisiAdSoyad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:contextClickable="false"
+        android:cursorVisible="false"
+        android:hint="Kişi Ad Soyad" />
+
+    <EditText
+        android:id="@+id/edittxt_duzenle_kisiTelefon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:hint="Telefon No" />
+
+
+    <EditText
+        android:id="@+id/edittxt_duzenle_kisiMail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:hint="Mail" />
+
+
+    <EditText
+        android:id="@+id/edittxt_duzenle_kisiNot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:hint="Kişi Hakkında  Not" />
+
+    <EditText
+        android:id="@+id/edittxt_duzenle_DogumTarihi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:hint="Kişi Doğum Tarihi" />
+
+    <Button
+        android:layout_gravity="right"
+        android:id="@+id/buttonKisiGuncelle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kişiyi Güncelle" />
+
+
+</LinearLayout>

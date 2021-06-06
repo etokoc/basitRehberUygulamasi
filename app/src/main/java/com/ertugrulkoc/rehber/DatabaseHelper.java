@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,5 +73,21 @@ class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db=this.getWritableDatabase();//SQLiteDatabase sınıfında yazılabilir bağlantı açıyoruz.
         db.delete(TABLO_AD,TelefonNo + "=?",new String[]{String.valueOf(telefonNo)});//telefon no girilerek veri silme işlemi yapıyoruz.
         db.close();
+    }
+
+    public void veriGuncelle(KisiModel kisi){
+       SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues cvGuncelle = new ContentValues();
+        cvGuncelle.put(AdSoyad, kisi.getKullaniciAdSoyad());
+        cvGuncelle.put(TelefonNo, kisi.getKullaniciTelefon());
+        cvGuncelle.put(Mail, kisi.getKullaniciMail());
+        cvGuncelle.put(KisiselNot, kisi.getKullaniciNot());
+        cvGuncelle.put(EklenmeTarih, kisi.getKullaniciEklenmeTarih());
+        cvGuncelle.put(DogumTarihi, kisi.getKullaniciDogumTarihi());
+
+        /*db.update(TABLO_AD, cvGuncelle, TelefonNo + "="
+                + kisi.getKullaniciTelefon(), null);*/
+       // db.update(TABLO_AD, cvGuncelle, TelefonNo + " =" + kisi.getKullaniciTelefon(), null);//id degerine göre güncelleme yapilir
+        Log.d("veri", "veriGuncelle: "+kisi.getKullaniciTelefon());
     }
 }
