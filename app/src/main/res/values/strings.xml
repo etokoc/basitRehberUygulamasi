@@ -9,4 +9,5 @@
     <string name="rehbere_ho_geldiniz">Rehbere Hoş Geldiniz</string>
     <string name="kisiAdet">"Rehberde Kayıtlı Kişi Sayısı: "</string>
     <string name="kayitTarihi">Sisteme Kayıt Tarihi:</string>
+    <string name="hesaptan_k_yap">Hesaptan Çıkış Yap</string>
 </resources>

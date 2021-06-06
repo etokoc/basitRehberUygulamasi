@@ -1,12 +1,16 @@
 package com.ertugrulkoc.rehber;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -16,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -122,6 +127,27 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
             listViewGuncelle();
         }
         alertDialogOlustur();
+    }
+
+    @SuppressLint("ResourceType")
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.layout.options_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.hesapCikis:
+                SharedPreferences sharedPreferences = getSharedPreferences("remember", MODE_PRIVATE);
+                sharedPreferences.edit().putBoolean("remember", false).apply();
+                Intent intent = new Intent(this,MainActivity.class);
+                startActivity(intent);
+                this.finish();
+                break;
+        }
+        return true;
     }
 
     private void alertDialogOlustur() {
@@ -241,8 +267,8 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
             edittxtTemizleGuncelle(0);
             Toast.makeText(this, "Kişi Kayıt Edildi", Toast.LENGTH_SHORT).show();
 
-        }else{
-            Toast.makeText(this, "Bu numara zaten kayıtlı" , Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Bu numara zaten kayıtlı", Toast.LENGTH_SHORT).show();
         }
     }
 

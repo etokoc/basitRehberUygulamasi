@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Rehber_Activity"
     android:orientation="vertical">
+
     <Button
         android:id="@+id/rehbereEkle"
         android:layout_width="match_parent"
@@ -21,5 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listViewRehber"
-        tools:listitem="@layout/satir_stili"/>
+        tools:listitem="@layout/satir_stili">
+    </ListView>
 </LinearLayout>
