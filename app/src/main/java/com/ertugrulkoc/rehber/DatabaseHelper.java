@@ -67,4 +67,10 @@ class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cr=db.query(TABLO_AD,sutunlar,null,null,null,null,null);//query fonksiyonu ile aldığımız parametreler yoluyla komutu kendi içerisinde yapılandırıyoruz.
         return cr;
     }
+
+    public void veriSil(String telefonNo){
+        SQLiteDatabase db=this.getWritableDatabase();//SQLiteDatabase sınıfında yazılabilir bağlantı açıyoruz.
+        db.delete(TABLO_AD,TelefonNo + "=?",new String[]{String.valueOf(telefonNo)});//telefon no girilerek veri silme işlemi yapıyoruz.
+        db.close();
+    }
 }

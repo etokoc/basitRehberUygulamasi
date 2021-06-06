@@ -24,6 +24,11 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
 
     CustomListAdapter adapter;
     KisiModel kisi;
+    List<KisiModel> kisilerListesi;
+    String islenecekKisiNo;
+    AlertDialog alertKisiKayit;
+    AlertDialog alertKisiTiklama;
+    int kisiId;
     private View tasarim;
     private KisiModel kayitEdilecekKisi;
     private Button buttonKisiKaydet, kisiEkleButon;
@@ -49,7 +54,6 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
                 buttonKisiKaydet.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(Rehber_Activity.this, "123123", Toast.LENGTH_SHORT).show();
                         edittxtVeriAl();
                     }
                 });
@@ -60,39 +64,42 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
         listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(Rehber_Activity.this, "" + view.getId(), Toast.LENGTH_SHORT).show();
                 tasarlanmisAlertDialogGoster();
+                kisiYakala(kisilerListesi.get(i).getKullaniciTelefon(),i);
                 return true;
             }
         });
 
-        List<KisiModel> kisiler = new ArrayList<>();
+        kisilerListesi = new ArrayList<>();
         DatabaseHelper veritabani = new DatabaseHelper(Rehber_Activity.this);
         Cursor cursor = veritabani.veriListele();
         while (cursor.moveToNext()) {//sırasıyla verileri listelememizi sağlıyor.
             kisi = new KisiModel();
             kisi.setKullaniciTelefon(cursor.getString(1));
             kisi.setKullaniciAdSoyad(cursor.getString(0));
-            kisiler.add(kisi);
-            Toast.makeText(this, "" + kisi.getKullaniciTelefon(), Toast.LENGTH_SHORT).show();
-            adapter = new CustomListAdapter(this, R.layout.satir_stili, kisiler);
-            listview.setAdapter(adapter);
+            kisilerListesi.add(kisi);
+            listViewGuncelle();
         }
 
+    }
+
+    private void listViewGuncelle() {
+        adapter = new CustomListAdapter(this, R.layout.satir_stili, kisilerListesi);
+        listview.setAdapter(adapter);
     }
 
     private void tasarlanmisKisiKayitAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setView(alertKisiKaydet);
-        AlertDialog alert = alertDialog.create();
-        alert.show();
+        alertKisiKayit = alertDialog.create();
+        alertKisiKayit.show();
     }
 
     private void tasarlanmisAlertDialogGoster() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setView(tasarim);
-        AlertDialog alert = alertDialog.create();
-        alert.show();
+        alertKisiTiklama = alertDialog.create();
+        alertKisiTiklama.show();
         alertDialogTuslar();
     }
 
@@ -105,7 +112,6 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
         alertKisiDuzenleButton.setOnClickListener(this);
         alertKisiSilButton.setOnClickListener(this);
     }
-
 
     private String tarihAl() {
         Calendar calendar = Calendar.getInstance();
@@ -142,6 +148,10 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
         }
 
         veritabaninaKaydet();
+        kisilerListesi.add(kayitEdilecekKisi);
+        listViewGuncelle();
+        alertKisiKayit.cancel();
+        Toast.makeText(this, "Kişi Kayıt Edildi", Toast.LENGTH_SHORT).show();
     }
 
     private void veritabaninaKaydet() {
@@ -160,16 +170,26 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.alertDialogDetay:
-                Toast.makeText(this, "Detay", Toast.LENGTH_SHORT).show();
+                listViewGuncelle();
                 break;
 
             case R.id.alertDialogDuzenle:
-                Toast.makeText(this, "Duzenle", Toast.LENGTH_SHORT).show();
+                listViewGuncelle();
                 break;
 
             case R.id.alertDialogSil:
-                Toast.makeText(this, "SİL", Toast.LENGTH_SHORT).show();
+                DatabaseHelper databaseHelper = new DatabaseHelper(this);
+                databaseHelper.veriSil(islenecekKisiNo);
+                kisilerListesi.remove(kisiId);
+                alertKisiTiklama.cancel();
+                listViewGuncelle();
                 break;
         }
+    }
+
+    public void kisiYakala(String telefonNo, int id) {
+        islenecekKisiNo = telefonNo;
+        kisiId=id;
+
     }
 }
