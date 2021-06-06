@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,12 +30,14 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
     AlertDialog alertKisiKayit;
     AlertDialog alertKisiTiklama;
     int kisiId;
+    AlertDialog.Builder alertDialogKisiaydet;
+    AlertDialog.Builder alertDialog;
     private View tasarim;
     private KisiModel kayitEdilecekKisi;
     private Button buttonKisiKaydet, kisiEkleButon;
     private String kulEklenmeTarih;
     private ListView listview;
-    private TextView alertKisiDetayButton, alertKisiDuzenleButton, alertKisiSilButton;
+    private TextView alertKisiDetayButton, alertKisiDuzenleButton, alertKisiSilButton,kisiAdet;
     private View alertKisiKaydet;
 
     @Override
@@ -42,7 +45,7 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rehber);
         tasarim = getLayoutInflater().inflate(R.layout.alertdialog_tasarim, null);
-
+        kisiAdet = findViewById(R.id.textViewKisiAdet);
         alertKisiKaydet = getLayoutInflater().inflate(R.layout.rehber_ekleme_tasarim, null);
         buttonKisiKaydet = alertKisiKaydet.findViewById(R.id.buttonKisiKaydet);
         kisiEkleButon = findViewById(R.id.rehbereEkle);
@@ -65,8 +68,8 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 tasarlanmisAlertDialogGoster();
-                kisiYakala(kisilerListesi.get(i).getKullaniciTelefon(),i);
-                return true;
+                kisiYakala(kisilerListesi.get(i).getKullaniciTelefon(), i);
+                return false;
             }
         });
 
@@ -80,25 +83,29 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
             kisilerListesi.add(kisi);
             listViewGuncelle();
         }
+        alertDialogOlustur();
+    }
 
+    private void alertDialogOlustur() {
+        alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setView(tasarim);
+        alertKisiTiklama = alertDialog.create();
+        alertDialogKisiaydet = new AlertDialog.Builder(this);
+        alertDialogKisiaydet.setView(alertKisiKaydet);
+        alertKisiKayit = alertDialogKisiaydet.create();
     }
 
     private void listViewGuncelle() {
         adapter = new CustomListAdapter(this, R.layout.satir_stili, kisilerListesi);
         listview.setAdapter(adapter);
+        kisiSayisi();
     }
 
     private void tasarlanmisKisiKayitAlert() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setView(alertKisiKaydet);
-        alertKisiKayit = alertDialog.create();
         alertKisiKayit.show();
     }
 
     private void tasarlanmisAlertDialogGoster() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setView(tasarim);
-        alertKisiTiklama = alertDialog.create();
         alertKisiTiklama.show();
         alertDialogTuslar();
     }
@@ -120,6 +127,15 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
         return kulEklenmeTarih;
     }
 
+    private void editxtTemizle(){
+        LinearLayout linearLayout = alertKisiKaydet.findViewById(R.id.linear_rehber_ekleme);
+        for (int i = 0; i < linearLayout.getChildCount(); i++) {
+            Object childView = linearLayout.getChildAt(i);
+            if (childView instanceof EditText) {
+               ((EditText) childView).setText("");
+            }
+        }
+    }
     private void edittxtVeriAl() {
         kayitEdilecekKisi = new KisiModel();
         kayitEdilecekKisi.setKullaniciEklenmeTarih(tarihAl());
@@ -151,9 +167,15 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
         kisilerListesi.add(kayitEdilecekKisi);
         listViewGuncelle();
         alertKisiKayit.cancel();
+        editxtTemizle();
         Toast.makeText(this, "Kişi Kayıt Edildi", Toast.LENGTH_SHORT).show();
     }
 
+    private void kisiSayisi(){
+        int adet = kisilerListesi.size();
+        kisiAdet.setText(getString(R.string.kisiAdet)+adet);
+
+    }
     private void veritabaninaKaydet() {
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         databaseHelper.veriEkle(
@@ -189,7 +211,6 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
 
     public void kisiYakala(String telefonNo, int id) {
         islenecekKisiNo = telefonNo;
-        kisiId=id;
-
+        kisiId = id;
     }
 }

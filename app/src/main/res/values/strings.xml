@@ -7,4 +7,5 @@
     <string name="giri_yap">Giriş Yap</string>
     <string name="kay_t_ol">Kayıt Ol</string>
     <string name="rehbere_ho_geldiniz">Rehbere Hoş Geldiniz</string>
+    <string name="kisiAdet">"Rehberde Kayıtlı Kişi Sayısı: "</string>
 </resources>
