@@ -33,24 +33,24 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
     KisiModel kisi;
     List<KisiModel> kisilerListesi;
     String islenecekKisiNo;
-    AlertDialog alertKisiKayit, alertKisiDetay,alertKisiGuncelle,alertKisiTiklama;
+    AlertDialog alertKisiKayit, alertKisiDetay, alertKisiGuncelle, alertKisiTiklama;
     int kisiId;
-    AlertDialog.Builder alertDialogKisiaydet, alertBuildDetay,alertDialog,alertDialogGuncelle;
-    LinearLayout linearLayout, linearLayoutDetay,linearLayoutGuncelle;
+    AlertDialog.Builder alertDialogKisiaydet, alertBuildDetay, alertDialog, alertDialogGuncelle;
+    LinearLayout linearLayout, linearLayoutDetay, linearLayoutGuncelle;
     DatabaseHelper databaseHelper;
     private View tasarim;
     private KisiModel kayitEdilecekKisi;
-    private Button buttonKisiKaydet, kisiEkleButon,kisiGuncelleButton;
+    private Button buttonKisiKaydet, kisiEkleButon, kisiGuncelleButton;
     private String kulEklenmeTarih;
     private ListView listview;
     private TextView alertKisiDetayButton, alertKisiDuzenleButton, alertKisiSilButton, kisiAdet;
-    private View alertKisiKaydet, kisiDetay,kisiGuncelle;
+    private View alertKisiKaydet, kisiDetay, kisiGuncelle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rehber);
-        kisiGuncelle= getLayoutInflater().inflate(R.layout.rehber_duzenle_tasarim,null);
+        kisiGuncelle = getLayoutInflater().inflate(R.layout.rehber_duzenle_tasarim, null);
         tasarim = getLayoutInflater().inflate(R.layout.alertdialog_tasarim, null);
         kisiAdet = findViewById(R.id.textViewKisiAdet);
         alertKisiKaydet = getLayoutInflater().inflate(R.layout.rehber_ekleme_tasarim, null);
@@ -58,13 +58,13 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
         linearLayout = alertKisiKaydet.findViewById(R.id.linear_rehber_ekleme);
         linearLayoutDetay = kisiDetay.findViewById(R.id.linear_rehber_detay);
         linearLayoutGuncelle = kisiGuncelle.findViewById(R.id.linear_rehber_duzenle);
-        kisiGuncelleButton= linearLayoutGuncelle.findViewById(R.id.buttonKisiGuncelle);
+        kisiGuncelleButton = linearLayoutGuncelle.findViewById(R.id.buttonKisiGuncelle);
         kisiGuncelleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                edittxtVeriAl();
-                DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
-                databaseHelper.veriGuncelle(kayitEdilecekKisi);
+                edittxtVeriAlDuzenle(kisiId);
+                databaseHelper = new DatabaseHelper(Rehber_Activity.this);
+                databaseHelper.veriGuncelle(kayitEdilecekKisi, islenecekKisiNo);
             }
         });
         buttonKisiKaydet = alertKisiKaydet.findViewById(R.id.buttonKisiKaydet);
@@ -148,9 +148,10 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
         kisiSayisi();
     }
 
-    private void tasarlanmisKisiGuncelle(){
+    private void tasarlanmisKisiGuncelle() {
         alertKisiGuncelle.show();
     }
+
     private void tasarlanmisKisiKayitAlert() {
         alertKisiKayit.show();
     }
@@ -203,7 +204,6 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
     private void edittxtVeriAl() {
         kayitEdilecekKisi = new KisiModel();
         kayitEdilecekKisi.setKullaniciEklenmeTarih(tarihAl());
-
         for (int i = 0; i < linearLayout.getChildCount(); i++) {
             Object childView = linearLayout.getChildAt(i);
             if (childView instanceof EditText) {
@@ -226,14 +226,60 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         }
+        boolean varolanKisiKontrol = false;
+        for (KisiModel eklenecek : kisilerListesi) {
+            if (eklenecek.getKullaniciTelefon().equals(kayitEdilecekKisi.getKullaniciTelefon())) {
+                varolanKisiKontrol = true;
+                break;
+            }
+        }
+        if (!varolanKisiKontrol) {
+            veritabaninaKaydet();
+            kisilerListesi.add(kayitEdilecekKisi);
+            listViewGuncelle();
+            alertKisiKayit.cancel();
+            edittxtTemizleGuncelle(0);
+            Toast.makeText(this, "Kişi Kayıt Edildi", Toast.LENGTH_SHORT).show();
 
-        veritabaninaKaydet();
+        }else{
+            Toast.makeText(this, "Bu numara zaten kayıtlı" , Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private void edittxtVeriAlDuzenle(int kisiSira) {
+        kayitEdilecekKisi = new KisiModel();
+        kayitEdilecekKisi.setKullaniciEklenmeTarih(tarihAl());
+        for (int i = 0; i < linearLayoutGuncelle.getChildCount(); i++) {
+            Object childView = linearLayoutGuncelle.getChildAt(i);
+            if (childView instanceof EditText) {
+                switch (((EditText) childView).getId()) {
+                    case R.id.edittxt_duzenle_kisiAdSoyad:
+                        kayitEdilecekKisi.setKullaniciAdSoyad(String.valueOf(((EditText) childView).getText()));
+                        break;
+                    case R.id.edittxt_duzenle_kisiTelefon:
+                        kayitEdilecekKisi.setKullaniciTelefon(String.valueOf(((EditText) childView).getText()));
+                        break;
+                    case R.id.edittxt_duzenle_kisiMail:
+                        kayitEdilecekKisi.setKullaniciMail(String.valueOf(((EditText) childView).getText()));
+                        break;
+                    case R.id.edittxt_duzenle_kisiNot:
+                        kayitEdilecekKisi.setKullaniciNot(String.valueOf(((EditText) childView).getText()));
+                        break;
+                    case R.id.edittxt_duzenle_DogumTarihi:
+                        kayitEdilecekKisi.setKullaniciDogumTarihi(String.valueOf(((EditText) childView).getText()));
+                        break;
+                }
+            }
+        }
+        kisilerListesi.remove(kisiSira);
         kisilerListesi.add(kayitEdilecekKisi);
         listViewGuncelle();
-        alertKisiKayit.cancel();
+        alertKisiGuncelle.cancel();
         edittxtTemizleGuncelle(0);
-        Toast.makeText(this, "Kişi Kayıt Edildi", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Kişi Güncellendi", Toast.LENGTH_SHORT).show();
     }
+
 
     private void kisiSayisi() {
         int adet = kisilerListesi.size();
@@ -289,7 +335,6 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
                     }
 
                 }
-
                 listViewGuncelle();
                 break;
 
@@ -310,7 +355,36 @@ public class Rehber_Activity extends AppCompatActivity implements View.OnClickLi
 
     private void kisiDuzenle() {
         tasarlanmisKisiGuncelle();
-        edittxtVeriAl();
+        for (int i = 0; i < linearLayoutGuncelle.getChildCount(); i++) {
+            Object childView = linearLayoutGuncelle.getChildAt(i);
+            if (childView instanceof EditText) {
+                switch (((EditText) childView).getId()) {
+                    case R.id.edittxt_duzenle_kisiAdSoyad:
+                        ((EditText) childView).setText(kisilerListesi.get(kisiId).getKullaniciAdSoyad());
+                        break;
+                    case R.id.edittxt_duzenle_kisiTelefon:
+                        ((EditText) childView).setText(kisilerListesi.get(kisiId).getKullaniciTelefon());
+                        break;
+                    case R.id.edittxt_duzenle_kisiMail:
+                        ((EditText) childView).setText(kisilerListesi.get(kisiId).getKullaniciMail());
+                        break;
+                    case R.id.edittxt_duzenle_kisiNot:
+                        ((EditText) childView).setText(kisilerListesi.get(kisiId).getKullaniciNot());
+                        break;
+                    case R.id.edittxt_duzenle_DogumTarihi:
+                        ((EditText) childView).setText(kisilerListesi.get(kisiId).getKullaniciDogumTarihi());
+                        break;
+                }
+            }
+            if (childView instanceof TextView) {
+                switch (((TextView) childView).getId()) {
+                    case R.id.txt_duzenle_kayitTarihi:
+                        ((TextView) childView).setText(getString(R.string.kayitTarihi) + " " + kisilerListesi.get(kisiId).getKullaniciEklenmeTarih());
+                        break;
+                }
+            }
+
+        }
     }
 
     public void kisiYakala(String telefonNo, int id) {

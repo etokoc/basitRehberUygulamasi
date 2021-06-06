@@ -75,7 +75,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void veriGuncelle(KisiModel kisi){
+    public void veriGuncelle(KisiModel kisi,String gonderilenTelefonNo){
        SQLiteDatabase db=this.getWritableDatabase();
         ContentValues cvGuncelle = new ContentValues();
         cvGuncelle.put(AdSoyad, kisi.getKullaniciAdSoyad());
@@ -87,7 +87,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
         /*db.update(TABLO_AD, cvGuncelle, TelefonNo + "="
                 + kisi.getKullaniciTelefon(), null);*/
-       // db.update(TABLO_AD, cvGuncelle, TelefonNo + " =" + kisi.getKullaniciTelefon(), null);//id degerine göre güncelleme yapilir
+       db.update(TABLO_AD, cvGuncelle, TelefonNo + " =" + gonderilenTelefonNo, null);//id degerine göre güncelleme yapilir
         Log.d("veri", "veriGuncelle: "+kisi.getKullaniciTelefon());
     }
 }
