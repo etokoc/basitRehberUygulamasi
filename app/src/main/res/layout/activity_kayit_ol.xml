@@ -8,10 +8,14 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@color/Background">
-
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="KAYIT OL"
+    android:textStyle="bold"/>
     <EditText
         android:layout_marginTop="5dp"
-        android:id="@+id/KullaniciAdKayit"
+        android:id="@+id/kullaniciAdKayit"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -29,7 +33,7 @@
 
     <Button
         android:layout_marginTop="5dp"
-        android:id="@+id/kisiKaydet"
+        android:id="@+id/kisiKaydetButton"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:text="@string/kay_t_ol"

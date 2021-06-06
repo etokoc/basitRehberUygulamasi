@@ -1,53 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    android:background="@color/Background"
     android:orientation="vertical"
-    android:background="@color/Background">
+    tools:context=".MainActivity">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/rehbere_ho_geldiniz"
         android:layout_gravity="center"
-        android:textSize="55sp"
-        android:gravity="center"
-        android:textColor="@color/butonYaziRenkleri"
+        android:layout_marginBottom="55dp"
         android:background="@color/BackgroundSecond"
-        android:layout_marginBottom="55dp"/>
+        android:gravity="center"
+        android:text="@string/rehbere_ho_geldiniz"
+        android:textColor="@color/butonYaziRenkleri"
+        android:textSize="55sp" />
+
     <EditText
         android:id="@+id/editKullaniciAd"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:hint="@string/kullan_c_ad"
         android:layout_gravity="center"
         android:ems="10"
-        android:inputType="textPersonName"/>
+        android:hint="@string/kullan_c_ad"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/editKullaniciSifre"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:hint="@string/parola"
         android:layout_gravity="center"
         android:ems="10"
-        android:inputType="textPassword"/>
-    <Button
-        android:layout_marginTop="5dp"
-        android:id="@+id/girisYapButton"
-        android:layout_width="130dp"
+        android:hint="@string/parola"
+        android:inputType="textPassword" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/giri_yap"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/GirisYapButton"/>
-    <Button
-        android:layout_marginTop="5dp"
-        android:id="@+id/kayitOlButton"
-        android:layout_width="130dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="-15dp"
+        android:layout_marginRight="15dp"
+        android:text="Beni Unutma" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/kay_t_ol"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/KayitOlButton"/>
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:layout_marginRight="20dp"
+            android:id="@+id/girisYapButton"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@color/GirisYapButton"
+            android:text="@string/giri_yap" />
+
+        <Button
+            android:id="@+id/kayitOlButton"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@color/KayitOlButton"
+            android:text="@string/kay_t_ol" />
+    </LinearLayout>
+
+
 </LinearLayout>
