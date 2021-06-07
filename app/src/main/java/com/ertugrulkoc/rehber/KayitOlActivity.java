@@ -72,10 +72,10 @@ public class KayitOlActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         kullaniciAdi = kullaniciAdEdit.getText().toString();
         kullaniciSifre = kullaniciSifreEdit.getText().toString();
-        if ( kullaniciAdi !=null && !kullaniciAdi.equals("") && kullaniciSifre !=null && !kullaniciSifre.equals("")){
+        if (kullaniciAdi != null && !kullaniciAdi.equals("") && kullaniciSifre != null && !kullaniciSifre.equals("")) {
             xmlVeriEkle(kullaniciAdi, kullaniciSifre);
 
-        }else {
+        } else {
             Toast.makeText(this, "Bilgileri Eksiksiz Giriniz !", Toast.LENGTH_SHORT).show();
         }
     }
@@ -101,15 +101,17 @@ public class KayitOlActivity extends AppCompatActivity implements View.OnClickLi
             root.appendChild(password);
 
             // Xmle yaz
+
             if (ContextCompat.checkSelfPermission(KayitOlActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(KayitOlActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE);
             } else {
+                Toast.makeText(this, "RR", Toast.LENGTH_SHORT).show();
                 Transformer tr = TransformerFactory.newInstance().newTransformer();
                 tr.setOutputProperty(OutputKeys.INDENT, "yes");
-                tr.transform(new DOMSource(dom), new StreamResult(new File(android.os.Environment.getExternalStorageDirectory(), XML_DOSYA_ADI + ".xml")));
+                tr.transform(new DOMSource(dom), new StreamResult(new File(android.os.Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), XML_DOSYA_ADI + ".xml")));
                 tr.transform(new DOMSource(dom), new StreamResult(System.out));
-                Intent intent = new Intent(this,MainActivity.class);
-                intent.putExtra("kulAd",kullaniciAdi);
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra("kulAd", kullaniciAdi);
                 startActivity(intent);
                 this.finish();
             }
