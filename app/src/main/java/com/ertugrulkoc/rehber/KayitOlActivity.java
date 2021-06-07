@@ -105,7 +105,6 @@ public class KayitOlActivity extends AppCompatActivity implements View.OnClickLi
             if (ContextCompat.checkSelfPermission(KayitOlActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(KayitOlActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE);
             } else {
-                Toast.makeText(this, "RR", Toast.LENGTH_SHORT).show();
                 Transformer tr = TransformerFactory.newInstance().newTransformer();
                 tr.setOutputProperty(OutputKeys.INDENT, "yes");
                 tr.transform(new DOMSource(dom), new StreamResult(new File(android.os.Environment.getExternalStorageDirectory(), XML_DOSYA_ADI + ".xml")));
