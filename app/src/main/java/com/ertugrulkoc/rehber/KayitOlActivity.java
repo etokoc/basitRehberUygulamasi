@@ -108,7 +108,7 @@ public class KayitOlActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(this, "RR", Toast.LENGTH_SHORT).show();
                 Transformer tr = TransformerFactory.newInstance().newTransformer();
                 tr.setOutputProperty(OutputKeys.INDENT, "yes");
-                tr.transform(new DOMSource(dom), new StreamResult(new File(android.os.Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), XML_DOSYA_ADI + ".xml")));
+                tr.transform(new DOMSource(dom), new StreamResult(new File(android.os.Environment.getExternalStorageDirectory(), XML_DOSYA_ADI + ".xml")));
                 tr.transform(new DOMSource(dom), new StreamResult(System.out));
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("kulAd", kullaniciAdi);
